@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+    <body>
+        <table id="table" class="layui-table" style='text-align: center;'>
+            <thead>
+            <tr class="text-danger">
+                <th class="text-center">编号</th>
+                <th class="text-center">教师姓名</th>
+                <th class="text-center">性别</th>
+                <th class="text-center">生日</th>
+                <th class="text-center">部门</th>
+                <th class="text-center">职务</th>
+                <th class="text-center">入职时间</th>
+                <th class="text-center">教育背景</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody id="tb">
+            <tr th:each="teacher:${pageInfo.list}">
+                <td>[[${teacher.id}]]</td>
+                <td>[[${teacher.name}]]</td>
+                <td>[[${teacher.sex}==1?'男':'女']]</td>
+                <td>[[${#dates.format(teacher.birth, 'yyyy年MM月dd日')}]]</td>
+                <td>[[${teacher.dept}]]</td>
+                <td>[[${teacher.job}]]</td>
+                <td>[[${#dates.format(teacher.entTime, 'yyyy年MM月dd日')}]]</td>
+                <td>[[${teacher.education}]]</td>
+                <td class="text-center">
+                    <a th:href="@{/manager/edit/}+${teacher.id}" type="button"  class="layui-btn layui-btn-radius ">编辑</a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+        <div style="text-align:center">
+            <h3 >当前 [[${pageInfo.pageNum }]]页,总[[${pageInfo.pages }]]
+                页,总 [[${pageInfo.total }]] 条记录
+            </h3>
+            <a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getFirstPage()}">首页</a>
+            <th:if test="${pageInfo.hasPreviousPage }">
+                <a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getPrePage()}">上一页</a>
+            </th:if>
+
+            <th:if test="${pageInfo.hasNextPage }">
+                <a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.pageNum+1}">下一页</a>
+            </th:if>
+
+            <a  class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getLastPage()}">末页</a>
+        </div>
+        <div id="moniItemModel"style="display: none"></div>
+    </body>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    function tes(){
+        layer.open({
+            type:1,
+            title:'[新增]',
+            area:['700px','600px'],
+            btn:false,
+// shade: false,
+            shadeClose: true,
+            maxmin:false,
+            content:$('#moniItemModel'),
+            zIndex:layer.zIndex,
+        });
+    }
+
+</script>
+</html>

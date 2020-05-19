@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wjl.teacher_management.repository.TeacherMapper">
+
+        <!--<select id="selectById" resultType="com.wjl.teacher_management.bean.Teacher">-->
+		<!--select * from teacher where id = #{value}-->
+	<!--</select>-->
+
+        <select id="selectAll" resultType="com.wjl.teacher_management.bean.Teacher">
+		select * from teacher
+	</select>
+
+        <select id="findById" resultType="com.wjl.teacher_management.bean.Teacher" parameterType="Integer">
+		select *
+		from teacher
+		where id = #{id}
+	</select>
+
+        <insert id="insert" parameterType="com.wjl.teacher_management.bean.Teacher">
+                insert into teacher
+              (name, sex, birth, dept, job, ent_time, education,uid)
+                values
+                (#{name},#{sex},#{birth},#{dept},#{job},#{entTime},#{education},#{uid})
+
+        </insert>
+    <insert id="insertTes" parameterType="com.wjl.teacher_management.bean.Teacher">
+                insert into teacher
+              (name, sex, birth, dept, job, ent_time, education)
+                values
+                (#{name},#{sex},#{birth},#{dept},#{job},#{entTime},#{education})
+
+        </insert>
+        <update id="update" parameterType="com.wjl.teacher_management.bean.Teacher">
+                update teacher
+                <set>
+                        <if test="name != null">`name` = #{name}, </if>
+                        <if test="sex != null">`sex` = #{sex}, </if>
+                        <if test="birth != null">`birth` = #{birth}, </if>
+                        <if test="dept != null">`dept` = #{dept}, </if>
+                        <if test="job != null">`job` = #{job}, </if>
+                        <if test="entTime != null">`ent_time` = #{entTime}, </if>
+                        <if test="education != null">`education` = #{education}, </if>
+                </set>
+                where id = #{id}
+        </update>
+
+        <delete id="delete">
+		delete from teacher where id = #{value}
+	</delete>
+
+    <select id="selectTeacherByUsername" resultType="com.wjl.teacher_management.bean.Teacher" parameterType="String">
+		select t.id,name,sex,birth,dept,job,ent_time,education
+        from teacher t ,user u
+        where u.username = #{username} and u.id = t.uid
+	</select>
+
+    <insert id="request" parameterType="int">
+        insert into teacher_skill(teacher_id, skill_id, state)
+		values(#{tid},#{sid},0)
+    </insert>
+    <select id="isRepeat" resultType="int">
+		select count(*)  from teacher_skill
+		where teacher_id = #{tid} and skill_id = #{sid}
+	</select>
+
+    <select id="status" resultType="com.wjl.teacher_management.service.vo.TeacherSkill">
+		select  s.id, s.name,s.price,m.state
+        from skill s,teacher_skill m
+        where s.id = m.skill_id and m.teacher_id = #{tid}
+
+
+	</select>
+</mapper>

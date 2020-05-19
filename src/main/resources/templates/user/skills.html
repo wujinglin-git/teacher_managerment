@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>申请培训</title>
+
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    function audit(id) {
+        $.get(
+            /*[[@{/user/request}]]*/,
+
+            {
+                'tid':[[${session.id}]],
+                'sid':id
+            },
+            function (result) {
+                layer.msg(result.message,
+                    {time:400},
+                    function () {
+                        location.href=(/*[[@{/user/skill}]]*/);
+                    }
+
+                )
+
+            }
+        )
+    }
+
+
+</script>
+<body>
+
+
+<table id="table" class="layui-table " >
+    <thead >
+    <tr class="text-danger" >
+        <th class="text-center" >编号</th>
+        <th class="text-center">技能</th>
+        <th class="text-center">预算</th>
+        <th class="text-center">培训周期/天</th>
+        <th class="text-center">描述</th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody id="tb">
+    <tr th:each="skill:${pageInfo.list}">
+        <td >[[${skill.id}]]</td>
+        <td>[[${skill.name}]]</td>
+        <td>[[${skill.price}]]</td>
+        <td>[[${skill.period}]] 天</td>
+        <td>[[${skill.descrip}]]</td>
+        <td class="text-center" th:if="${skill.repeat} lt 1">
+
+            <input  type="button" class="layui-btn layui-btn-radius " value="申请" th:onclick="'audit(&quot;'+${skill.id}+'&quot;)'">
+        </td>
+        <td class="text-center" th:if="${skill.repeat} gt 0">
+
+            <input  type="button" 	class="layui-btn layui-btn-radius layui-btn-disabled" value="已申请">
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+
+</html>

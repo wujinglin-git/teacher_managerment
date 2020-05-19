@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息</title>
+
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    function sub(id) {
+        $.post(
+            /*[[@{/manager/audit}]]*/,
+
+            {
+                '_method':'put',
+                'id':id,
+                'state':1
+            },
+            function (result) {
+                layer.msg(result.message,
+                    {time:400},
+                    function () {
+                        location.href=(/*[[@{/manager/audit}]]*/);
+                    }
+
+                )
+
+            }
+        )
+    }
+
+function refuse(id) {
+    $.post(
+        /*[[@{/manager/audit}]]*/,
+
+        {
+            '_method':'put',
+            'id':id,
+            'state':2
+        },
+        function (result) {
+            layer.msg(result.message,
+                {time:400},
+                function () {
+                    location.href=(/*[[@{/manager/audit}]]*/);
+                }
+
+            )
+
+        }
+    )
+}
+</script>
+<body>
+<div th:if="${!pageInfo.list.isEmpty()}">
+<table id="table" class="layui-table" style='text-align: center;'>
+    <thead>
+    <tr class="text-danger">
+        <th class="text-center">id</th>
+        <th class="text-center">教师姓名</th>
+        <th class="text-center">技能名称</th>
+        <th class="text-center">预算</th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody id="tb">
+
+    <tr th:each="list:${pageInfo.list}">
+        <td>[[${list.id}]]</td>
+        <td>[[${list.name}]]</td>
+        <td>[[${list.skill}]]</td>
+        <td>[[${list.price}]]</td>
+        <td class="text-center">
+            <input type="button" class="layui-btn layui-btn-radius " value="允许" th:onclick="'sub(&quot;'+${list.id}+'&quot;)'">
+            <input type="button" class="layui-btn layui-btn-radius " value="拒绝" th:onclick="'refuse(&quot;'+${list.id}+'&quot;)'">
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<div style="text-align:center">
+<h3 >当前 [[${pageInfo.pageNum }]]页,总[[${pageInfo.pages }]]
+页,总 [[${pageInfo.total }]] 条记录
+</h3>
+<a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getFirstPage()}">首页</a>
+<th:if test="${pageInfo.hasPreviousPage }">
+<a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getPrePage()}">上一页</a>
+</th:if>
+
+<th:if test="${pageInfo.hasNextPage }">
+<a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.pageNum+1}">下一页</a>
+</th:if>
+
+<a  class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getLastPage()}">末页</a>
+</div>
+</div>
+<div th:if="${pageInfo.list.isEmpty()}" style="margin: 30px ">
+   <h2> 暂无申请记录</h2>
+
+</div>
+</body>
+
+</html>

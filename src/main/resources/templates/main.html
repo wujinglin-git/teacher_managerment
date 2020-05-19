@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">高校教师培训管理系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+
+                    [[${session.name}]],欢迎您
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a id="changePwd">修改密码</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a th:href="@{/logout}">注销</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+
+                <!--教师-->
+                <li class="layui-nav-item" id="info" sec:authorize="hasRole('ROLE_USER')"><a>个人信息</a></li>
+                <li class="layui-nav-item" id="update" sec:authorize="hasRole('ROLE_USER')"><a>编辑资料</a></li>
+                <li class="layui-nav-item" id="skill" sec:authorize="hasRole('ROLE_USER')"><a>培训技能列表</a></li>
+                <li class="layui-nav-item" id="applicationStatus" sec:authorize="hasRole('ROLE_USER')"><a>申请进度信息</a></li>
+                <!--管理员-->
+                <li class="layui-nav-item" id="teacher" sec:authorize="hasRole('ROLE_MANAGER')"><a>查看教师信息</a></li>
+                <li class="layui-nav-item" id="skill_info" sec:authorize="hasRole('ROLE_MANAGER')"><a>培训信息</a></li>
+                <li class="layui-nav-item" id="add_skill" sec:authorize="hasRole('ROLE_MANAGER')"><a>培训信息发布</a></li>
+                <li class="layui-nav-item" id="statistic" sec:authorize="hasRole('ROLE_MANAGER')"><a>经费统计</a></li>
+                <li class="layui-nav-item" id="audit" sec:authorize="hasRole('ROLE_MANAGER')"><a>审核申请</a></li>
+                <li class="layui-nav-item" id="upload" sec:authorize="hasRole('ROLE_MANAGER')"><a>轮播图管理</a></li>
+
+                <!--超管-->
+                <li class="layui-nav-item" id="role" sec:authorize="hasRole('ROLE_ADMIN')"><a>权限管理</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <!--此处的role 会在testController中根据角色的不同 专跳进不同的内容-->
+            <iframe id="frame-id" th:src= "@{/role}" width="99%" height="99%" frameborder="0" scrolling="no">
+            </iframe>
+
+
+    </div>
+<h1 sec:authentication="name"></h1>
+    <div class="layui-footer" style="text-align: center">
+        <!-- 底部固定区域 -->
+        © www.github.com/wujinglin-git     - 乌敬林
+    </div>
+</div>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    $(function(){
+        // 点击切换页面
+
+        $("#info").click(function() {
+            $("#frame-id").attr("src",/*[[@{/user/teachers}]]*/''); // 教师信息
+        });
+        $("#update").click(function() {
+            $("#frame-id").attr("src", /*[[@{/user/toUpdate}]]*/'');
+        });
+        $("#skill").click(function() {
+            $("#frame-id").attr("src", /*[[@{/user/skill}]]*/'');
+        });
+        $("#applicationStatus").click(function() {
+            $("#frame-id").attr("src", /*[[@{/user/status}]]*/'');
+        });
+
+        /*-----------manager----------*/
+        $("#teacher").click(function() {
+            $("#frame-id").attr("src", /*[[@{/manager/teachers}]]*/'');   /*教师信息*/
+        });
+        $("#skill_info").click(function() {
+            $("#frame-id").attr("src", /*[[@{/manager/skills}]]*/'');   /*技能管理*/
+        });
+        $("#add_skill").click(function() {
+            $("#frame-id").attr("src", /*[[@{/manager/toAdd}]]*/'');    /*添加新技能*/
+        });
+        $("#statistic").click(function() {
+            $("#frame-id").attr("src", /*[[@{/manager/statistic}]]*/'');    /*资金统计*/
+        });
+        $("#audit").click(function() {
+            $("#frame-id").attr("src", /*[[@{/manager/audit}]]*/'');     /*审核*/
+        });
+        $("#upload").click(function() {
+            $("#frame-id").attr("src", /*[[@{/manager/upload}]]*/'');     /*图片*/
+        });
+
+        /*----------------超管--------------------*/
+        $("#role").click(function() {
+            $("#frame-id").attr("src", /*[[@{/admin/roles}]]*/'');                 /*权限管理*/
+        });
+
+        $("#changePwd").click(function() {
+            $("#frame-id").attr("src", /*[[@{/changePassword}]]*/'');                 /*修改密码*/
+        });
+    });
+</script>
+</body>
+</html>

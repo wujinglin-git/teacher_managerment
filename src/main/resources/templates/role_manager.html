@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<body>
+<table id="table" class="layui-table " >
+    <thead >
+    <tr class="text-danger" >
+        <th class="text-center">id</th>
+        <th class="text-center">用户名</th>
+        <th class="text-center">权限</th>
+        <th class="text-center">操作</th>
+    </tr>
+    </thead>
+    <tbody id="tb">
+    <tr th:each="role:${list}">
+        <td>[[${role.id}]]</td>
+        <td>[[${role.username}]]</td>
+        <td>[[${role.role}]]</td>
+        <div th:switch="${role.role}">
+            <td th:case="'ROLE_USER'"><input  type="button" class="layui-btn layui-btn-radius " value="授权" th:onclick="'give(&quot;'+${role.id}+'&quot;)'">
+            </td>
+            <td th:case="'ROLE_MANAGER'"><input  type="button" class="layui-btn layui-btn-radius " value="撤销权限" th:onclick="'back(&quot;'+${role.id}+'&quot;)'">
+            </td>
+            <td th:case="*"> <input  type="button" class="layui-btn layui-btn-radius layui-btn-disabled"  value="禁止操作">
+            </td>
+        </div>
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    function give(id) {
+        $.get(
+            /*[[@{/admin/give}]]*/,
+
+            {
+
+                'id':id
+            },
+            function (result) {
+                layer.msg(result.message,
+                    {time:400},
+                    function () {
+                        location.href=(/*[[@{/admin/roles}]]*/);
+                    }
+
+                )
+
+            }
+        )
+    }
+
+    function back(id) {
+        $.get(
+            /*[[@{/admin/back}]]*/,
+
+            {
+                'id':id
+            },
+            function (result) {
+                layer.msg(result.message,
+                    {time:400},
+                    function () {
+                        location.href=(/*[[@{/admin/roles}]]*/);
+                    }
+
+                )
+
+            }
+        )
+    }
+</script>
+</html>

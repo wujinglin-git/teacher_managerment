@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>申请培训</title>
+
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    function audit(id) {
+        $.get(
+            /*[[@{/user/request}]]*/,
+
+            {
+                'tid':[[${session.id}]],
+                'sid':id
+            },
+            function (result) {
+                layer.msg(result.message,
+                    {time:400},
+                    function () {
+                        location.href=(/*[[@{/user/skill}]]*/);
+                    }
+
+                )
+
+            }
+        )
+    }
+
+
+</script>
+<body>
+
+
+<table id="table" class="layui-table " >
+    <thead >
+    <tr class="text-danger" >
+        <th class="text-center" >编号</th>
+        <th class="text-center">技能</th>
+        <th class="text-center">开销</th>
+        <th class="text-center">申请进度</th>
+    </tr>
+    </thead>
+    <tbody id="tb">
+    <tr th:each="status:${pageInfo.list}">
+        <td >[[${status.id}]]</td>
+        <td>[[${status.name}]]</td>
+        <td>[[${status.price}]]</td>
+        <td class="text-center" th:if="${status.state} eq 0">
+            待审核
+           </td>
+        <td class="text-center" th:if="${status.state} eq 2">
+            审核未通过
+        </td>
+        <td class="text-center" th:if="${status.state} eq 1">
+            审核通过
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<div style="text-align:center">
+    <h3 >当前 [[${pageInfo.pageNum }]]页,总[[${pageInfo.pages }]]
+        页,总 [[${pageInfo.total }]] 条记录
+    </h3>
+    <a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getFirstPage()}">首页</a>
+    <th:if test="${pageInfo.hasPreviousPage }">
+        <a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getPrePage()}">上一页</a>
+    </th:if>
+
+    <th:if test="${pageInfo.hasNextPage }">
+        <a class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.pageNum+1}">下一页</a>
+    </th:if>
+
+    <a  class="layui-btn" th:href="'/manager/teachers?pageNum='+${pageInfo.getLastPage()}">末页</a>
+</div>
+</body>
+
+</html>

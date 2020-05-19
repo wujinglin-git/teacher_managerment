@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑资料</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<body>
+<form class="layui-form" th:action="@{/manager/skill}" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="id" th:value="${skill.id}">
+    <div style="margin: 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">预算</label>
+        <div class="layui-input-block">
+            <input type="text" name="price" required  lay-verify="required" placeholder="教育部" th:value="${skill.price}" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">培训周期/天</label>
+        <div class="layui-input-block">
+            <input type="text" name="period" required  lay-verify="required" placeholder="班主任" autocomplete="off" th:value="${skill.period}" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea name="descrip" required lay-verify="required" placeholder="请输入" class="layui-textarea" th:value="${skill.descrip}"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input type="submit" value="提交" class="layui-btn">
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+    </div>
+</form>
+</body>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+
+</script>
+</html>

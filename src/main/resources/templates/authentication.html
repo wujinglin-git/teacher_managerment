@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息</title>
+
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<body>
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th>用户姓名</th>
+        <th>权限列表</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>白鹤飞</td>
+        <td style="width: 25%">USER,MANAGER</td>
+        <td><input type="button" value="编辑权限"></td>
+    </tr>
+    <tr>
+        <td>冷寒梅</td>
+        <td>USER</td>
+        <td><input type="button" value="编辑权限"></td>
+    </tr>
+    <tr>
+        <td>赵玉霞</td>
+        <td>USER,MANAGER，ADMIN</td>
+        <td><input type="button" value="编辑权限"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+
+
+
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>第一个HTML页面</title>
+</head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<body>
+
+<h1 style="text-align: center;margin-top: 90px">教师培训管理系统</h1>
+
+<!--*******************************************-->
+<form name="f" class="layui-form" action="/authentication/form" method="post" style="margin-top: 100px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-btn" type="submit" value="登录"/>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <a th:href="@{/register}" class="layui-btn layui-btn-primary">注册</a>
+        </div>
+    </div>
+</form>
+<div class="layui-footer" style="text-align: center;margin-top: 250px">
+    <!-- 底部固定区域 -->
+    © www.github.com/wujinglin-git     - 乌敬林
+</div>
+</body>
+</html>

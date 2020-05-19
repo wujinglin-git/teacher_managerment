@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<body>
+<form method="get" th:action="@{/statistic/search}">
+<div class="layui-form-item" style="margin-top: 50px">
+    <label class="layui-form-label">教师姓名:</label>
+    <div class="layui-input-inline">
+        <input type="text" name="title" required  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+
+    </div>   <button  class="layui-btn layui-btn-radius ">搜索</button><label class="layui-form-label">范围</label>
+    <div class="layui-input-inline" style="width: 100px;">
+        <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-mid">-</div>
+    <div class="layui-input-inline" style="width: 100px;">
+        <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+    </div>
+</div><hr>
+</form>
+<table id="table" class="layui-table " >
+    <thead >
+    <tr class="text-danger" >
+        <th class="text-center" >编号</th>
+        <th class="text-center">教师姓名</th>
+        <th class="text-center">总费用</th>
+    </tr>
+    </thead>
+
+    <tbody id="tb">
+    <tr th:each="skill:${pageInfo.list}">
+        <td>[[${skill.id}]]</td>
+        <td>[[${skill.name}]]</td>
+        <td>[[${skill.price}]]</td>
+    </tr>
+    </tbody>
+
+</table>
+<div style="text-align:center; position: absolute; left: 37%; top: 550px">
+    <h3 >当前 [[${pageInfo.pageNum }]]页,总[[${pageInfo.pages }]]
+        页,总 [[${pageInfo.total }]] 条记录
+    </h3>
+    <a class="layui-btn" th:href="'/manager/skills?pageNum='+${pageInfo.getFirstPage()}">首页</a>
+    <th:if test="${pageInfo.hasPreviousPage }">
+        <a class="layui-btn" th:href="'/manager/skills?pageNum='+${pageInfo.getPrePage()}">上一页</a>
+    </th:if>
+
+    <th:if test="${pageInfo.hasNextPage }">
+        <a class="layui-btn" th:href="'/manager/skills?pageNum='+${pageInfo.pageNum+1}">下一页</a>
+    </th:if>
+
+    <a  class="layui-btn" th:href="'/manager/skills?pageNum='+${pageInfo.getLastPage()}">末页</a>
+</div>
+</body>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '100%' //设置容器宽度
+            ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+
+</script>
+</html>

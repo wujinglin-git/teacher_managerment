@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wjl.teacher_management.repository.SkillMapper">
+        <select id="selectById" resultType="com.wjl.teacher_management.bean.Skill">
+		select * from skill where id = #{id}
+	</select>
+
+        <select id="selectAll" resultType="com.wjl.teacher_management.bean.Skill">
+		select * from skill
+	</select>
+
+        <insert id="save" parameterType="com.wjl.teacher_management.bean.Skill">
+		insert into skill
+		(
+			`name`,
+			`price`,
+			`period`,
+			`descrip`
+		)
+		values
+		(
+			#{name},
+			#{price},
+			#{period},
+			#{descrip}
+		)
+	</insert>
+
+        <update id="update" parameterType="com.wjl.teacher_management.bean.Skill">
+                update skill
+                <set>
+                        <if test="name != null">`name` = #{name}, </if>
+                        <if test="price != null">`price` = #{price}, </if>
+                        <if test="period != null">`period` = #{period}, </if>
+                        <if test="descrip != null">`descrip` = #{descrip}</if>
+                </set>
+                where id = #{id}
+        </update>
+
+        <delete id="delete">
+		delete from skill where id = #{value}
+	</delete>
+
+	<select id="isReapeat" resultType="int">
+		select count(*) from teacher_skill
+		where teacher_id = #{tid} and skill_id = #{sid}
+	</select>
+
+	<select id="selectAllSta" resultType="com.wjl.teacher_management.service.vo.TeacherSkill">
+		select m.id,t.name,s.name as skill,s.price
+		from teacher_skill m,skill s,teacher t
+		where  state = 0 and m.teacher_id = t.id and s.id = m.skill_id
+	</select>
+
+	<update id="updateState" parameterType="int">
+		update teacher_skill
+		set state = #{state}
+		where id = #{id}
+	</update>
+
+	<select id="selectSt" resultType="com.wjl.teacher_management.service.vo.StatisticVo">
+		select m.id,t.name,sum(s.price) as  price
+        from teacher_skill m ,teacher t , skill s
+        where m.teacher_id = t.id and m.skill_id = s.id and m.state = 1
+        group by t.name
+
+
+	</select>
+
+
+	<!--<select id="selectSt" resultType="com.wjl.teacher_management.service.vo.StatisticVo">-->
+		<!--select m.id,t.name,sum(s.price) as  price-->
+        <!--from teacher_skill m ,teacher t , skill s-->
+        <!--where m.teacher_id = t.id and m.skill_id = s.id and m.state = 1-->
+        <!--group by t.name-->
+
+
+	<!--</select>-->
+
+	<!--<select id="searchName" parameterType="com.wjl.teacher_management.service.vo.StatisticVo" resultType="com.wjl.teacher_management.service.vo.StatisticVo">-->
+		<!--select t.id , t.name , s.price-->
+		<!--from teacher t,teacher_skill m,skill s-->
+		<!--<where>-->
+			<!--<if test="name!=null and name!=''">-->
+				<!--and name like concat(concat('%',#{name}),'%')-->
+			<!--</if>-->
+		<!--</where>-->
+		<!--and  t.id = m.teacher_id and s.id = m.skill_id-->
+	<!--</select>-->
+
+	<!--<select id="searchPrice" parameterType="double" resultType="com.wjl.teacher_management.service.vo.StatisticVo">-->
+		<!--select t.id , t.name , s.price-->
+		<!--from teacher t,teacher_skill m,skill s-->
+		<!--where t.id = m.teacher_id and s.id = m.skill_id-->
+		<!--and s.price > &gt; #{price1} and s.price &lt; #{price2}-->
+	<!--</select>-->
+</mapper>

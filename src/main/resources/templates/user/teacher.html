@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>教师信息</title>
+    <style type="text/css">
+       .tt{width: 75%;height: 50px}
+        .t1{width: 25%;}
+    </style>
+</head>
+<link rel="stylesheet" th:href="@{/css/layui.css}">
+<body>
+
+
+<table class="layui-table">
+    <colgroup>
+        <col width="150">
+        <col width="200">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="t1">姓名</td>
+        <td  class="tt" >[[${teacher.name}]]</td>
+    </tr>
+    <tr>
+        <td>性别</td>
+        <td  class="tt" th:if="${teacher.sex} eq 1">
+            男
+        </td>
+        <td  class="tt" th:if="${teacher.sex} eq 0">
+            女
+        </td>
+    </tr>
+    <tr>
+        <td>生日</td>
+        <td class="tt">[[${#dates.format(teacher.birth, 'yyyy年MM月dd日')}]]</td>
+    </tr>
+    <tr>
+        <td>部门</td>
+        <td  class="tt">[[${teacher.dept}]]</td>
+    </tr>
+    <tr>
+        <td>职务</td>
+        <td  class="tt">[[${teacher.job}]]</td>
+    </tr>
+    <tr>
+        <td>入职时间</td>
+        <td  class="tt">[[${#dates.format(teacher.entTime, 'yyyy年MM月dd日')}]]</td>
+    </tr>
+    <tr>
+        <td>教育背景</td>
+        <td  class="tt">[[${teacher.education}]]</td>
+    </tr>
+    <tr>
+        <td>专业</td>
+        <td  class="tt">化学</td>
+    </tr>
+
+    </tbody>
+</table>
+</body>
+<script th:src="@{/js/layui.all.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:inline="javascript">
+
+
+
+</script>
+</html>
